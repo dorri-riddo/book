@@ -1,0 +1,13 @@
+.env
+application.yml
+
+.gradle/
+.idea/
+build/
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+.vscode/햣
