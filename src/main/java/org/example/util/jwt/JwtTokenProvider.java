@@ -94,6 +94,12 @@ public class JwtTokenProvider {
         }
     }
 
+    public long extractUserIdClaims(String token) {
+        Claims claims = extractAllClaims(token);
+
+        return Long.parseLong(claims.get("id").toString());
+    }
+
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
                 .verifyWith(key)

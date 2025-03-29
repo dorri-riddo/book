@@ -1,6 +1,7 @@
 package org.example.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,10 +11,15 @@ import java.time.LocalDateTime;
 
 @Entity(name = "books")
 @Getter
+@Builder
 public class BookEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "user_id", columnDefinition = "int8", nullable = false)
+    @Comment("사용자 id")
+    private long userId;
 
     @Column(name = "title", columnDefinition = "varchar", nullable = false)
     @Comment("제목")
@@ -34,6 +40,10 @@ public class BookEntity {
     @Column(name = "cover_image_url", columnDefinition = "varchar", nullable = true)
     @Comment("커버 이미지")
     private String coverImageUrl;
+
+    @Column(name = "total_page", columnDefinition = "int8", nullable = false)
+    @Comment("전체 페이지")
+    private Long totalPage;
 
     @Column(name = "created_at", columnDefinition = "timestamp default CURRENT_TIME", nullable = false)
     @Comment("생성일")
