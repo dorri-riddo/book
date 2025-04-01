@@ -1,12 +1,12 @@
 package org.example.repo;
 
 import jakarta.transaction.Transactional;
-import org.example.entity.BookEntity;
+import org.example.entity.GoalEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BookRepository extends JpaRepository<BookEntity, Long> {
+public interface GoalRepository extends JpaRepository<GoalEntity, Long> {
     @Transactional
-    BookEntity save(BookEntity payload);
+    GoalEntity save(GoalEntity payload);
 }
