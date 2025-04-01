@@ -1,6 +1,7 @@
 package org.example.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity(name = "goals")
 @Getter
+@Builder
 public class GoalEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
