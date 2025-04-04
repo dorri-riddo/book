@@ -65,7 +65,7 @@ public class UserService {
      */
     private void saveUser(ReqRegisterUser payload) throws NoSuchAlgorithmException {
         String encryptPassword = passwordEncoder.encode(payload.getPassword());
-        UserEntity createUserPayload = new UserEntity(payload.getName(), payload.getEmail(), encryptPassword);
+        UserEntity createUserPayload = payload.toCreateUserEntity(encryptPassword);
         userRepo.save(createUserPayload);
     }
 }

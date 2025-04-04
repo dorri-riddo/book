@@ -2,6 +2,7 @@ package org.example.user.dto.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
+import org.example.entity.UserEntity;
 
 @Getter
 public class ReqRegisterUser {
@@ -13,4 +14,12 @@ public class ReqRegisterUser {
 
     @Schema(description = "비밀번호", requiredMode = Schema.RequiredMode.REQUIRED)
     private String password;
+
+    public UserEntity toCreateUserEntity(String encryptPassword) {
+        return UserEntity.builder()
+                .name(this.name)
+                .email(this.email)
+                .password(encryptPassword)
+                .build();
+    }
 }

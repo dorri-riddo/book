@@ -2,13 +2,11 @@ package org.example.goal;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.goal.dto.SwaggerInterface;
+import org.example.goal.dto.req.ReqModifyGoalCurrentPage;
 import org.example.goal.dto.req.ReqRegisterGoal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "목표", description = "독서 목표 달성 관련 API")
 @RestController()
@@ -23,5 +21,13 @@ public class GoalController {
         long userId = Long.parseLong(auth.getName());
 
         service.registerGoal(payload, userId);
+    }
+
+    @SwaggerInterface.ModifyGoalCurrentPage
+    @PatchMapping("/currentPage")
+    public void modifyGoalCurrentPage(@RequestBody ReqModifyGoalCurrentPage payload, Authentication auth) {
+        long userId = Long.parseLong(auth.getName());
+
+        service.modifyGoalCurrentPage(payload, userId);
     }
 }
