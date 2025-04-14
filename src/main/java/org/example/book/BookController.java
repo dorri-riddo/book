@@ -1,14 +1,12 @@
-package org.example.book.dto;
+package org.example.book;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.book.BookService;
+import org.example.book.dto.SwaggerInterface;
 import org.example.book.dto.req.ReqRegisterBook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "도서", description = "도서 관련 API")
 @RestController()
@@ -23,5 +21,13 @@ public class BookController {
         long userId = Long.parseLong(auth.getName());
 
         service.registerUser(payload, userId);
+    }
+
+    @SwaggerInterface.ModifyBook
+    @PatchMapping("{id}")
+    public void modifyBook(@PathVariable("id") long id, @RequestBody ReqRegisterBook payload, Authentication auth) {
+        long userId = Long.parseLong(auth.getName());
+
+        service.modifyBook(id, payload, userId);
     }
 }

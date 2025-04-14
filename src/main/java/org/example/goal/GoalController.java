@@ -24,10 +24,10 @@ public class GoalController {
     }
 
     @SwaggerInterface.ModifyGoalCurrentPage
-    @PatchMapping("/currentPage")
-    public void modifyGoalCurrentPage(@RequestBody ReqModifyGoalCurrentPage payload, Authentication auth) {
+    @PatchMapping("/currentPage/{id}")
+    public void modifyGoalCurrentPage(@PathVariable("id") long id, @RequestBody ReqModifyGoalCurrentPage payload, Authentication auth) {
         long userId = Long.parseLong(auth.getName());
 
-        service.modifyGoalCurrentPage(payload, userId);
+        service.modifyGoalCurrentPage(id, payload, userId);
     }
 }

@@ -20,14 +20,14 @@ public class GoalService {
         goalRepo.save(createGoalEntity);
     }
 
-    public void modifyGoalCurrentPage(ReqModifyGoalCurrentPage payload, long userId) {
-        GoalEntity goal = goalRepo.findByIdAndUserIdAndDeletedAtIsNull(payload.getGoalId(), userId);
+    public void modifyGoalCurrentPage(long id, ReqModifyGoalCurrentPage payload, long userId) {
+        GoalEntity goal = goalRepo.findByIdAndUserIdAndDeletedAtIsNull(id, userId);
         if (goal == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "not found goal");
         }
 
         String currentState = getGoalState(payload.getCurrentPage(), goal.getTotalPage());
-        goalRepo.updateCurrentPageAndStateById(payload.getGoalId(), payload.getCurrentPage(), currentState);
+        goalRepo.updateCurrentPageAndStateById(id, payload.getCurrentPage(), currentState);
     }
 
     private String getGoalState(long currentPage, long totalPage) {

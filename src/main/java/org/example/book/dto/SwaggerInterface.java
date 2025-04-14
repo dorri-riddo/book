@@ -13,4 +13,9 @@ public class SwaggerInterface {
     @Retention(RetentionPolicy.RUNTIME)
     @Operation(summary = "도서 신규 등록 API", description = "수동으로 신규 도서를 등록한다", security = @SecurityRequirement(name = "bearerAuth"))
     public @interface RegisterBook {};
+
+    @Target(ElementType.METHOD)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Operation(summary = "도서 수정 API", description = "수동으로 도서를 수정한다", security = @SecurityRequirement(name = "bearerAuth"))
+    public @interface ModifyBook {};
 }
