@@ -22,7 +22,7 @@ public class BookService {
     public void modifyBook(long id, ReqRegisterBook payload, long userId) {
         BookEntity book = bookRepo.findByIdAndUserIdAndDeletedAtIsNull(id, userId);
         if (book == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "not found goal");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "not found book");
         }
 
         BookEntity modifyBookEntity = payload.toCreateBookEntity(userId);
