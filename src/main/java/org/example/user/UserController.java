@@ -20,7 +20,7 @@ public class UserController {
 
     @SwaggerInterface.RegisterUser
     @PostMapping("")
-    public void registerUser(@RequestBody ReqRegisterUser payload) throws NoSuchAlgorithmException {
+    public void registerUser(@RequestBody ReqRegisterUser payload) {
         service.registerUser(payload);
     }
 

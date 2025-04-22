@@ -40,7 +40,7 @@ public class AuthController {
 
     @SwaggerInterface.RefreshAccessToken
     @PostMapping("/refresh")
-    public RespLogIn refreshAccessToken(@RequestBody ReqRefreshAccessToken payload) throws Exception {
+    public RespLogIn refreshAccessToken(@RequestBody ReqRefreshAccessToken payload) {
         return service.refreshAccessToken(payload);
     }
 }

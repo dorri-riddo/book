@@ -2,11 +2,12 @@ package org.example.user;
 
 import org.example.entity.AuthEntity;
 import org.example.entity.UserEntity;
-import org.example.util.exception.BadRequestException;
 import org.example.repo.AuthRepository;
 import org.example.repo.UserRepository;
 import org.example.user.dto.req.ReqRegisterUser;
+import org.example.util.exception.ResponseCustomStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +26,8 @@ public class UserService {
      * 신규 사용자를 등록한다
      *
      * @param payload
-     * @throws NoSuchAlgorithmException
      */
-    public void registerUser(ReqRegisterUser payload) throws NoSuchAlgorithmException {
+    public void registerUser(ReqRegisterUser payload) {
         // 검증
         validateRegisterUser(payload);
 
@@ -44,17 +44,17 @@ public class UserService {
         UserEntity user = userRepo.findByEmailAndDeletedAtIsNull(payload.getEmail());
 
         if (user != null) {
-            throw new BadRequestException("E003", "invalid new user");
+            throw new ResponseCustomStatusException("invalid new user", HttpStatus.BAD_REQUEST);
         }
 
         AuthEntity auth = authRepo.findTopByEmailAndIsConfirmedTrue(payload.getEmail());
 
         if (auth == null) {
-            throw new BadRequestException("E003", "invalid new user");
+            throw new ResponseCustomStatusException("invalid new user", HttpStatus.BAD_REQUEST);
         }
 
         if (auth.getIsConfirmed() == false) {
-            throw new BadRequestException("E003", "invalid new user");
+            throw new ResponseCustomStatusException("invalid new user", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -63,7 +63,7 @@ public class UserService {
      *
      * @param payload
      */
-    private void saveUser(ReqRegisterUser payload) throws NoSuchAlgorithmException {
+    private void saveUser(ReqRegisterUser payload) {
         String encryptPassword = passwordEncoder.encode(payload.getPassword());
         UserEntity createUserPayload = payload.toCreateUserEntity(encryptPassword);
         userRepo.save(createUserPayload);

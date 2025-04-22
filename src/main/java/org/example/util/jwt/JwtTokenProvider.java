@@ -4,8 +4,10 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import org.example.util.exception.ResponseCustomStatusException;
 import org.example.util.jwt.req.ReqGenerateToken;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -48,10 +50,10 @@ public class JwtTokenProvider {
         return tokens;
     }
 
-    public String refreshAccessToken(String refreshToken) throws Exception {
+    public String refreshAccessToken(String refreshToken) {
         // Refresh Token 검증
         if (!validateToken(refreshToken)) {
-            throw new Exception("Invalid refresh token");
+            throw new ResponseCustomStatusException("Invalid refresh token", HttpStatus.UNAUTHORIZED);
         }
 
         // 토큰에서 정보 추출
@@ -60,7 +62,7 @@ public class JwtTokenProvider {
         // Refresh Token 인지 확인
         String tokenType = claims.get("tokenType", String.class);
         if (!"refresh".equals(tokenType)) {
-            throw new Exception("Token is not a refresh token");
+            throw new ResponseCustomStatusException("Token is not a refresh token", HttpStatus.UNAUTHORIZED);
         }
 
         // 사용자 이름 추출

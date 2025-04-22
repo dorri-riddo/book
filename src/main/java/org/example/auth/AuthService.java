@@ -8,11 +8,13 @@ import org.example.auth.dto.resp.RespLogIn;
 import org.example.repo.AuthRepository;
 import org.example.repo.UserRepository;
 import org.example.entity.AuthEntity;
+import org.example.util.exception.ResponseCustomStatusException;
 import org.example.util.jwt.JwtTokenProvider;
-import org.example.util.exception.BadRequestException;
 import org.example.entity.UserEntity;
 import org.example.mail.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -87,9 +89,8 @@ public class AuthService {
      * 리프레쉬 토큰을 기반으로 액세스 토큰을 신규 발급한다
      * @param payload
      * @return
-     * @throws Exception
      */
-    public RespLogIn refreshAccessToken(ReqRefreshAccessToken payload) throws Exception {
+    public RespLogIn refreshAccessToken(ReqRefreshAccessToken payload) {
         String newAccessToken = jwtTokenProvider.refreshAccessToken(payload.getRefreshToken());
         return new RespLogIn(newAccessToken, payload.getRefreshToken());
     }
@@ -106,7 +107,7 @@ public class AuthService {
     private void validateSendAuthCodeByEmail(ReqSendAuthCodeByEmail payload) {
         UserEntity user = userRepo.findByEmailAndDeletedAtIsNull(payload.getEmail());
         if (user != null) {
-            throw new BadRequestException("E001", "already existed email");
+            throw new ResponseCustomStatusException("already existed email", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -144,15 +145,16 @@ public class AuthService {
      */
     private void validateAuthCode(AuthEntity auth, String code) {
         if (auth == null) {
-            throw new BadRequestException("E002", "invalid auth code");
+            throw new ResponseCustomStatusException("invalid auth code", HttpStatus.BAD_REQUEST);
+
         }
 
         if (auth.isExpired()) {
-            throw new BadRequestException("E002", "invalid auth code");
+            throw new ResponseCustomStatusException("invalid auth code", HttpStatus.BAD_REQUEST);
         }
 
         if (!code.equals(auth.getAuthCode())) {
-            throw new BadRequestException("E002", "invalid auth code");
+            throw new ResponseCustomStatusException("invalid auth code", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -163,13 +165,13 @@ public class AuthService {
     private void validateLogIn(ReqLogIn payload, UserEntity user) {
         // 이메일을 검증한다
         if (user == null) {
-            throw new BadRequestException("E004", "invalid email");
+            throw new ResponseCustomStatusException("invalid email", HttpStatus.BAD_REQUEST, "E001");
         }
 
         // 비밀번호를 검증한다
         Boolean passwordMatch = passwordEncoder.matches(payload.getPassword(), user.getPassword());
         if (passwordMatch == false) {
-            throw new BadRequestException("E005", "invalid password");
+            throw new ResponseCustomStatusException("invalid email", HttpStatus.BAD_REQUEST, "E002");
         }
     }
 
