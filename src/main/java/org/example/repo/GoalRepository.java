@@ -17,6 +17,12 @@ public interface GoalRepository extends JpaRepository<GoalEntity, Long> {
 
     @Transactional
     @Modifying
+    @Query("UPDATE goals g SET g.dueDate = :#{#goal.dueDate}, g.state = :#{#goal.state}" +
+            ", g.currentPage = :#{#goal.currentPage}, g.totalPage = :#{#goal.totalPage}, g.updatedAt = CURRENT_TIMESTAMP WHERE g.id = :id")
+    int updateById(@Param("id") long id, @Param("goal") GoalEntity goal);
+
+    @Transactional
+    @Modifying
     @Query("UPDATE goals g SET g.currentPage = :currentPage, g.state = :state, g.updatedAt = CURRENT_TIMESTAMP WHERE g.id = :id")
     int updateCurrentPageAndStateById(@Param("id") long id, @Param("currentPage") long currentPage, @Param("state") String state);
 }

@@ -16,6 +16,11 @@ public class SwaggerInterface {
 
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
+    @Operation(summary = "목표 수정 API", description = "수동으로 목표를 수정한다", security = @SecurityRequirement(name = "bearerAuth"))
+    public @interface ModifyGoal {};
+
+    @Target(ElementType.METHOD)
+    @Retention(RetentionPolicy.RUNTIME)
     @Operation(summary = "현재 읽고 있는 페이지 수정 API", description = "현재 읽고 있는 페이지를 수정한다", security = @SecurityRequirement(name = "bearerAuth"))
     public @interface ModifyGoalCurrentPage {}
 }
