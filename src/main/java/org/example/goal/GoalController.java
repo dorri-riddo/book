@@ -2,6 +2,7 @@ package org.example.goal;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.goal.dto.SwaggerInterface;
+import org.example.goal.dto.req.ReqModifyGoal;
 import org.example.goal.dto.req.ReqModifyGoalCurrentPage;
 import org.example.goal.dto.req.ReqRegisterGoal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,14 @@ public class GoalController {
         long userId = Long.parseLong(auth.getName());
 
         service.registerGoal(payload, userId);
+    }
+
+    @SwaggerInterface.ModifyGoal
+    @PutMapping("{id}")
+    public void modifyGoal(@PathVariable("id") long id, @RequestBody ReqModifyGoal payload, Authentication auth) {
+        long userId = Long.parseLong(auth.getName());
+
+        service.modifyGoal(id, payload, userId);
     }
 
     @SwaggerInterface.ModifyGoalCurrentPage
