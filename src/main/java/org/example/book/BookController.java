@@ -1,7 +1,6 @@
 package org.example.book;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.example.book.BookService;
 import org.example.book.dto.SwaggerInterface;
 import org.example.book.dto.req.ReqRegisterBook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class BookController {
     }
 
     @SwaggerInterface.ModifyBook
-    @PatchMapping("{id}")
+    @PutMapping("{id}")
     public void modifyBook(@PathVariable("id") long id, @RequestBody ReqRegisterBook payload, Authentication auth) {
         long userId = Long.parseLong(auth.getName());
 
