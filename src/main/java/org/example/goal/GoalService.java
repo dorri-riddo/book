@@ -4,16 +4,23 @@ import org.example.entity.GoalEntity;
 import org.example.goal.dto.req.ReqModifyGoal;
 import org.example.goal.dto.req.ReqModifyGoalCurrentPage;
 import org.example.goal.dto.req.ReqRegisterGoal;
+import org.example.goal.dto.resp.RespGoal;
 import org.example.repo.GoalRepository;
 import org.example.util.exception.ResponseCustomStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GoalService {
     @Autowired
     private GoalRepository goalRepo;
+
+    public List<RespGoal> getGoals(long userId) {
+        return goalRepo.findGoalWithBookTitleByUserId(userId);
+    }
 
     public void registerGoal(ReqRegisterGoal payload, long userId) {
         GoalEntity createGoalEntity = payload.toCreateGoalEntity(userId);

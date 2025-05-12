@@ -5,9 +5,12 @@ import org.example.goal.dto.SwaggerInterface;
 import org.example.goal.dto.req.ReqModifyGoal;
 import org.example.goal.dto.req.ReqModifyGoalCurrentPage;
 import org.example.goal.dto.req.ReqRegisterGoal;
+import org.example.goal.dto.resp.RespGoal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "목표", description = "독서 목표 달성 관련 API")
 @RestController()
@@ -15,6 +18,14 @@ import org.springframework.web.bind.annotation.*;
 public class GoalController {
     @Autowired
     private GoalService service;
+
+    @SwaggerInterface.GetGoals
+    @GetMapping("")
+    public List<RespGoal> getGoals(Authentication auth) {
+        long userId = Long.parseLong(auth.getName());
+        
+        return service.getGoals(userId);
+    }
 
     @SwaggerInterface.RegisterGoal
     @PostMapping("")
