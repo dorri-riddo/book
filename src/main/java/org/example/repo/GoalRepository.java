@@ -22,7 +22,7 @@ public interface GoalRepository extends JpaRepository<GoalEntity, Long> {
             "FROM goals g INNER JOIN books b ON g.bookId = b.id " +
             "WHERE g.userId = :userId AND g.deletedAt IS NULL AND b.deletedAt IS NULL " +
             "ORDER BY g.id DESC")
-    List<RespGoal> findGoalWithBookTitleByUserId(@Param("userId") long userId);
+    List<RespGoal> findAllGoalWithBookTitleByUserId(@Param("userId") long userId);
 
     @Transactional
     @Modifying

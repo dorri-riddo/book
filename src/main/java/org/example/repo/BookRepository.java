@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import java.util.List;
 
 @Repository
 public interface BookRepository extends JpaRepository<BookEntity, Long> {
@@ -14,6 +15,8 @@ public interface BookRepository extends JpaRepository<BookEntity, Long> {
     BookEntity save(BookEntity payload);
 
     BookEntity findByIdAndUserIdAndDeletedAtIsNull(long id, long userId);
+
+    List<BookEntity> findAllByUserIdAndDeletedAtIsNullOrderByIdDesc(long userId);
 
     @Transactional
     @Modifying

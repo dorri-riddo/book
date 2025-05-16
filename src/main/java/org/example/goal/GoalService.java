@@ -19,7 +19,7 @@ public class GoalService {
     private GoalRepository goalRepo;
 
     public List<RespGoal> getGoals(long userId) {
-        return goalRepo.findGoalWithBookTitleByUserId(userId);
+        return goalRepo.findAllGoalWithBookTitleByUserId(userId);
     }
 
     public void registerGoal(ReqRegisterGoal payload, long userId) {
