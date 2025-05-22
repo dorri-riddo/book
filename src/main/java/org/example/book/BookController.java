@@ -7,6 +7,7 @@ import org.example.entity.BookEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Tag(name = "도서", description = "도서 관련 API")
@@ -33,18 +34,25 @@ public class BookController {
     }
 
     @SwaggerInterface.RegisterBook
-    @PostMapping("")
-    public void registerBook(@RequestBody ReqRegisterBook payload, Authentication auth) {
+    @PostMapping(value = "", consumes = "multipart/form-data")
+    public void registerBook(
+            @RequestPart(value = "payload") ReqRegisterBook payload,
+            @RequestPart(value = "coverImage", required = false) MultipartFile coverImage,
+            Authentication auth) {
         long userId = Long.parseLong(auth.getName());
 
-        service.registerBook(payload, userId);
+        service.registerBook(payload, coverImage, userId);
     }
 
     @SwaggerInterface.ModifyBook
-    @PutMapping("{id}")
-    public void modifyBook(@PathVariable("id") long id, @RequestBody ReqRegisterBook payload, Authentication auth) {
+    @PutMapping(value = "{id}", consumes = "multipart/form-data")
+    public void modifyBook(
+            @PathVariable("id") long id,
+            @RequestPart(value = "payload") ReqRegisterBook payload,
+            @RequestPart(value = "coverImage", required = false) MultipartFile coverImage,
+            Authentication auth) {
         long userId = Long.parseLong(auth.getName());
 
-        service.modifyBook(id, payload, userId);
+        service.modifyBook(id, payload, coverImage, userId);
     }
 }
