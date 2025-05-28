@@ -18,20 +18,17 @@ public class ReqRegisterBook {
     @Schema(description = "저자", requiredMode = Schema.RequiredMode.REQUIRED)
     private String author;
 
-    @Schema(description = "커버 이미지", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private String coverImageUrl;
-
     @Schema(description = "전체 페이지", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long totalPage;
 
-    public BookEntity toCreateBookEntity(long userId) {
+    public BookEntity toCreateBookEntity(long userId, String coverImageUrl) {
         return BookEntity.builder()
                 .userId(userId)
                 .title(this.title)
                 .publisher(this.publisher)
                 .isbn(this.isbn)
                 .author(this.author)
-                .coverImageUrl(this.coverImageUrl)
+                .coverImageUrl(coverImageUrl)
                 .totalPage(this.totalPage)
                 .build();
     }
